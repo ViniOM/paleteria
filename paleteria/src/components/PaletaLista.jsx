@@ -1,43 +1,69 @@
 import "./PaletaLista.css";
-import React, {useState} from "react";
-import { paletas } from "../mocks/paletas";
+import { PaletaService } from "services/PaletaService";
+import React, { useState, useEffect } from "react";
+import PaletaListaItem from "../components/PaletaListaItem/PaletaListaItem";
+import PaletaDetalhesModal from "../components/PaletaDetalhesModal/PaletaDetalheModal";
 
 function PaletaLista() {
+  const [paletas, setPaletas] = useState([]);
 
   const [paletaSelecionada, setPaletasSelecionada] = useState({});
 
+  const [paletaModal, setPaletaModal] = useState(false);
+
+  const paleta = {
+    titulo: "Açaí com Leite Condensado",
+    descricao:
+      "Quam vulputate dignissim suspendisse in est ante in nibh mauris.",
+    foto: "assets/images/acai-com-leite-condensado.png",
+    preco: 10.0,
+    sabor: "Açaí",
+    recheio: "Leite Condensado",
+    possuiRecheio: true,
+  };
+
+  const removerItem = (paletaIndex) => {
+    const paleta = {
+      [paletaIndex]: Number[paletaSelecionada[paletaIndex] || 0] - 1,
+    };
+    setPaletasSelecionada({ ...paletaSelecionada, ...paleta });
+  };
+
   const adicionarItem = (paletaIndex) => {
-    const paleta = { [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) +1 };
-    setPaletasSelecionada({...paletaSelecionada, ...paleta});
-  }
+    const paleta = {
+      [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) + 1,
+    };
+    setPaletasSelecionada({ ...paletaSelecionada, ...paleta });
+  };
+
+  const getLista = async () => {
+    const response = await PaletaService.getLista();
+    setPaletas(response);
+  };
+
+  useEffect(() => {
+    getLista();
+  }, []);
 
   return (
     <div className="PaletaLista">
       {paletas.map((paleta, index) => (
-        <div className="PaletaListaItem" key={`PaletaListaItem-${index}`}>
-            <span className="PaletaListaItem__badge"> {paletaSelecionada[index] || 0} </span>
-          <div>
-            <div className="PaletaListaItem__titulo">{paleta.titulo}</div>
-            <div className="PaletaListaItem__preco">
-              {paleta.preco.toFixed(2)}
-            </div>
-            <div className="PaletaListaItem__descricao">
-              {paleta.descricao}{" "}
-            </div>
-            <div className="PaletaListaItem__acoes Acoes">
-              <button className="Acoes__adicionar Acoes__adicionar--preencher" onClick={() => adicionarItem(index)} > 
-                adicionar
-              </button>
-            </div>
-          </div>
-          <img
-            className="PaletaListaItem__foto"
-            src={paleta.foto}
-            alt={`Paleta de ${paleta.sabor}`}
-          />
-        </div>
+        <PaletaListaItem
+          key={`PaletaListaItem-${index}`}
+          paleta={paleta}
+          quantidadeSelecionada={paletaSelecionada[index]}
+          index={index}
+          onAdd={(index) => adicionarItem(index)}
+          onRemove={(index) => removerItem(index)}
+          clickItem={(paletaId) => setPaletaModal(paleta)}
+        />
       ))}
-      ;
+      {paletaModal && (
+        <PaletaDetalhesModal
+          paleta={paletaModal}
+          closeModal={() => setPaletaModal(false)}
+        />
+      )}
     </div>
   );
 }
