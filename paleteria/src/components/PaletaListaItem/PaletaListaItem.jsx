@@ -14,6 +14,8 @@ function PaletaListaItem({ paleta, quantidadeSelecionada, index, onRemove , onAd
       <span className="PaletaListaItem__badge"> {quantidadeSelecionada} </span>
     );
 
+    
+
   return (
     <div className="PaletaListaItem" onClick={()=> clickItem(paleta.id)}>
       {badgeCounter(quantidadeSelecionada, index)}

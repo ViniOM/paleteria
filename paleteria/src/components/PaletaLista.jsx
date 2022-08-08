@@ -4,23 +4,13 @@ import React, { useState, useEffect } from "react";
 import PaletaListaItem from "../components/PaletaListaItem/PaletaListaItem";
 import PaletaDetalhesModal from "../components/PaletaDetalhesModal/PaletaDetalheModal";
 
-function PaletaLista() {
+function PaletaLista({ paletaCriada }) {
   const [paletas, setPaletas] = useState([]);
 
   const [paletaSelecionada, setPaletasSelecionada] = useState({});
 
   const [paletaModal, setPaletaModal] = useState(false);
 
-  const paleta = {
-    titulo: "Açaí com Leite Condensado",
-    descricao:
-      "Quam vulputate dignissim suspendisse in est ante in nibh mauris.",
-    foto: "assets/images/acai-com-leite-condensado.png",
-    preco: 10.0,
-    sabor: "Açaí",
-    recheio: "Leite Condensado",
-    possuiRecheio: true,
-  };
 
   const removerItem = (paletaIndex) => {
     const paleta = {
@@ -41,6 +31,20 @@ function PaletaLista() {
     setPaletas(response);
   };
 
+  const getPaletaById = async (paletaId) => {
+    const response = await PaletaService.getById(paletaId);
+    setPaletaModal(response);
+  };
+
+  const adicionaPaletaNaLista = (paleta) => {
+    const lista = [...paletas, paleta];
+    setPaletas(lista);
+  };
+
+  useEffect(() => {
+    if (paletaCriada) adicionaPaletaNaLista(paletaCriada);
+  }, [paletaCriada]);
+
   useEffect(() => {
     getLista();
   }, []);
@@ -55,7 +59,7 @@ function PaletaLista() {
           index={index}
           onAdd={(index) => adicionarItem(index)}
           onRemove={(index) => removerItem(index)}
-          clickItem={(paletaId) => setPaletaModal(paleta)}
+          clickItem={(paletaId) => getPaletaById(paletaId)}
         />
       ))}
       {paletaModal && (
