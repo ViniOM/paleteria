@@ -3,6 +3,7 @@ import { PaletaService } from "services/PaletaService";
 import { useState, useEffect, useCallback } from "react";
 import PaletaListaItem from "../PaletaListaItem/PaletaListaItem";
 import PaletaDetalhesModal from "../PaletaDetalhesModal/PaletaDetalheModal";
+import { matchByText } from "helpers/utils";
 
 import { ActionMode } from "constants/index";
 function PaletaLista({
@@ -13,15 +14,12 @@ function PaletaLista({
   paletaEditada,
   paletaRemovida,
 }) {
-
-  const selecionadas = JSON.parse(localStorage.getItem('selecionadas')) ?? {};
+  const selecionadas = JSON.parse(localStorage.getItem("selecionadas")) ?? {};
 
   const [paletas, setPaletas] = useState([]);
-
+  const [paletasFiltradas, setPaletasFiltradas] = useState([]);
   const [paletaSelecionada, setPaletasSelecionada] = useState(selecionadas);
-
   const [paletaModal, setPaletaModal] = useState(false);
-
 
   const removerItem = (paletaIndex) => {
     const paleta = {
@@ -38,17 +36,17 @@ function PaletaLista({
   };
 
   const setSelecionadas = useCallback(() => {
-    if(!paletas.length) return
+    if (!paletas.length) return;
 
     const entries = Object.entries(paletaSelecionada);
-    const sacola = entries.map(arr => ({
+    const sacola = entries.map((arr) => ({
       paletaId: paletas[arr[0]].id,
-      quantidade: arr[1]
-    }))
+      quantidade: arr[1],
+    }));
 
-    localStorage.setItem('sacola', JSON.stringify(sacola))
-    localStorage.setItem('selecionadas', JSON.stringify(paletaSelecionada))
-  }, [ paletaSelecionada, paletas ])
+    localStorage.setItem("sacola", JSON.stringify(sacola));
+    localStorage.setItem("selecionadas", JSON.stringify(paletaSelecionada));
+  }, [paletaSelecionada, paletas]);
 
   const getLista = async () => {
     const response = await PaletaService.getLista();
@@ -75,9 +73,16 @@ function PaletaLista({
     [paletas]
   );
 
+  const filtroPorTitulo = ({ target }) => {
+    const lista = [...paletas].filter(({ titulo }) =>
+      matchByText(titulo, target.value)
+    );
+    setPaletasFiltradas(lista);
+  };
+
   useEffect(() => {
-    setSelecionadas();  
-  }, [ setSelecionadas , paletaSelecionada ]);
+    setSelecionadas();
+  }, [setSelecionadas, paletaSelecionada]);
 
   useEffect(() => {
     getLista();
@@ -90,28 +95,37 @@ function PaletaLista({
     ) {
       adicionaPaletaNaLista(paletaCriada);
     }
+    setPaletasFiltradas(paletas)
   }, [adicionaPaletaNaLista, paletaCriada, paletas]);
 
   return (
-    <div className="PaletaLista">
-      {paletas.map((paleta, index) => (
-        <PaletaListaItem
-          mode={mode}
-          key={`PaletaListaItem-${index}`}
-          paleta={paleta}
-          quantidadeSelecionada={paletaSelecionada[index]}
-          index={index}
-          onAdd={(index) => adicionarItem(index)}
-          onRemove={(index) => removerItem(index)}
-          clickItem={(paletaId) => getPaletaById(paletaId)}
-        />
-      ))}
-      {paletaModal && (
-        <PaletaDetalhesModal
-          paleta={paletaModal}
-          closeModal={() => setPaletaModal(false)}
-        />
-      )}
+    <div className="PaletaLista-Wrapper">
+      <input
+        className="PaletaLista-filtro"
+        onChange={filtroPorTitulo}
+        placeholder="Busque uma paleta pelo nome"
+      />
+
+      <div className="PaletaLista">
+        {paletasFiltradas.map((paleta, index) => (
+          <PaletaListaItem
+            mode={mode}
+            key={`PaletaListaItem-${index}`}
+            paleta={paleta}
+            quantidadeSelecionada={paletaSelecionada[index]}
+            index={index}
+            onAdd={(index) => adicionarItem(index)}
+            onRemove={(index) => removerItem(index)}
+            clickItem={(paletaId) => getPaletaById(paletaId)}
+          />
+        ))}
+        {paletaModal && (
+          <PaletaDetalhesModal
+            paleta={paletaModal}
+            closeModal={() => setPaletaModal(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }
