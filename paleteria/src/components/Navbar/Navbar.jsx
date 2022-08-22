@@ -20,17 +20,17 @@ function Navbar({ createPaleta, updatePaleta, deletePaleta, mode, openBag }) {
     
         <div className="Header__opcoes Opcoes">
 
-        <button type="button" className={`Opcoes__paleta Paleta ${mode === ActionMode.ATUALIZAR && "Paleta--ativa"}`} onClick={() => updatePaleta() }>
-        <div className="Botao">
-          <p className="Paleta__icone">Editar</p>
-          </div>
-        </button>
-
         <button type="button" className="Opcoes__paleta Paleta" onClick={() => createPaleta() }>
           <div className="Botao">
           <p className="Paleta__icone">Adicionar</p>
           </div>
        </button>
+
+       <button type="button" className={`Opcoes__paleta Paleta ${mode === ActionMode.ATUALIZAR && "Paleta--ativa"}`} onClick={() => updatePaleta() }>
+        <div className="Botao">
+          <p className="Paleta__icone">Editar</p>
+          </div>
+        </button>
 
        <button
             type="button"
