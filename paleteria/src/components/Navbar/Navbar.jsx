@@ -1,8 +1,9 @@
-import sacola from "assets/icons/sacola.svg";
 import deletar from "assets/icons/deletar.svg";
+import paleta from "assets/icons/paleta.png";
+import atualizar from "assets/icons/atualizar.png";
 import logo from "assets/logo.svg";
 import { ActionMode } from "constants/index";
-import "./Navbar.css"
+import "./Navbar.css";
 
 function Navbar({ createPaleta, updatePaleta, deletePaleta, mode, openBag }) {
   return (
@@ -17,38 +18,50 @@ function Navbar({ createPaleta, updatePaleta, deletePaleta, mode, openBag }) {
           />
           <span className="Logo__titulo"> El Geladon </span>
         </div>
-    
+
         <div className="Header__opcoes Opcoes">
-
-        <button type="button" className="Opcoes__paleta Paleta" onClick={() => createPaleta() }>
-          <div className="Botao">
-          <p className="Paleta__icone">Adicionar</p>
-          </div>
-       </button>
-
-       <button type="button" className={`Opcoes__paleta Paleta ${mode === ActionMode.ATUALIZAR && "Paleta--ativa"}`} onClick={() => updatePaleta() }>
-        <div className="Botao">
-          <p className="Paleta__icone">Editar</p>
-          </div>
-        </button>
-
-       <button
+          <button
             type="button"
-            className={`Opcoes__paleta Paleta ${mode === ActionMode.DELETAR && 'Paleta--deletar'}`}
-            onClick={() => deletePaleta()}>
-
-            <img src={deletar} width="40px" className="Paleta__icone" alt="Deletar paleta" />
-        </button>
-
-          <div className="Opcoes__sacola Sacola">
+            className="Opcoes__paleta Paleta"
+            onClick={() => createPaleta()}
+          >
             <img
-              src={sacola}
+              src={paleta}
               width="40px"
-              className="Sacola__icone"
-              alt="Sacola de compras"
-              onClick={openBag}
+              className="Paleta__icone"
+              alt="Deletar paleta"
             />
-          </div>
+          </button>
+
+          <button
+            type="button"
+            className={`Opcoes__paleta Paleta ${
+              mode === ActionMode.ATUALIZAR && "Paleta--ativa"
+            }`}
+            onClick={() => updatePaleta()}
+          >
+            <img
+              src={atualizar}
+              width="40px"
+              className="Paleta__icone"
+              alt="Deletar paleta"
+            />
+          </button>
+
+          <button
+            type="button"
+            className={`Opcoes__paleta Paleta ${
+              mode === ActionMode.DELETAR && "Paleta--deletar"
+            }`}
+            onClick={() => deletePaleta()}
+          >
+            <img
+              src={deletar}
+              width="40px"
+              className="Paleta__icone"
+              alt="Deletar paleta"
+            />
+          </button>
         </div>
       </div>
     </div>
