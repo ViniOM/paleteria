@@ -5,4 +5,4 @@
 Desenvolvi essa aplicação a fins de estudo, passei por varios apertos no desenvolvimento mas consegui lançar e isso que importa!.
 
 
-[<h3>PALETERIA EL GELADON</h3>](https://paleteria-elgeladon.vercel.app)
+[PALETERIA EL GELADON](https://paleteria-elgeladon.vercel.app)
