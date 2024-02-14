@@ -6,3 +6,5 @@ Desenvolvi essa aplicação a fins de estudo, passei por varios apertos no desen
 
 
 [PALETERIA EL GELADON](https://testpalete.onrender.com)
+
+<i>A instancia que esta rodando o servidor é gratis, portanto ela cai quando fica inativa. Assim que entrar na pagina aguarde alguns minutos para o servidor reativar novamente!</i>
