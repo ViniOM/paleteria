@@ -35,19 +35,6 @@ function PaletaLista({
     setPaletasSelecionada({ ...paletaSelecionada, ...paleta });
   };
 
-  const setSelecionadas = useCallback(() => {
-    if (!paletas.length) return;
-
-    const entries = Object.entries(paletaSelecionada);
-    const sacola = entries.map((arr) => ({
-      paletaId: paletas[arr[0]].id,
-      quantidade: arr[1],
-    }));
-
-    localStorage.setItem("sacola", JSON.stringify(sacola));
-    localStorage.setItem("selecionadas", JSON.stringify(paletaSelecionada));
-  }, [paletaSelecionada, paletas]);
-
   const getLista = async () => {
     const response = await PaletaService.getLista();
     setPaletas(response);
@@ -81,10 +68,6 @@ function PaletaLista({
   };
 
   useEffect(() => {
-    setSelecionadas();
-  }, [setSelecionadas, paletaSelecionada]);
-
-  useEffect(() => {
     getLista();
   }, [paletaEditada, paletaRemovida]);
 
@@ -95,7 +78,7 @@ function PaletaLista({
     ) {
       adicionaPaletaNaLista(paletaCriada);
     }
-    setPaletasFiltradas(paletas)
+    setPaletasFiltradas(paletas);
   }, [adicionaPaletaNaLista, paletaCriada, paletas]);
 
   return (
