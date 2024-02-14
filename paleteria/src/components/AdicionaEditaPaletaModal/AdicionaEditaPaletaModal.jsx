@@ -59,8 +59,9 @@ function AdicionaEditaPaletaModal({
 
     const serviceCall = {
       [ActionMode.NORMAL]: () => PaletaService.create(paleta),
-      [ActionMode.ATUALIZAR]: () => PaletaService.updateById(paletaToUpdate?.id, paleta),
-    }
+      [ActionMode.ATUALIZAR]: () =>
+        PaletaService.updateById(paletaToUpdate?.id, paleta),
+    };
 
     const response = await serviceCall[mode]();
 
@@ -86,8 +87,12 @@ function AdicionaEditaPaletaModal({
   return (
     <Modal closeModal={closeModal}>
       <div className="AdicionaPaletaModal">
-        <form autocomplete="off">
-        <h2> { ActionMode.ATUALIZAR === mode ? 'Atualizar' : 'Adicionar ao' } Cardápio </h2>
+        <form autoComplete="off">
+          <h2>
+            {" "}
+            {ActionMode.ATUALIZAR === mode ? "Atualizar" : "Adicionar ao"}{" "}
+            Cardápio{" "}
+          </h2>
           <div>
             <label className="AdicionaPaletaModal__text" htmlFor="preco">
               {" "}
@@ -96,7 +101,7 @@ function AdicionaEditaPaletaModal({
             <input
               id="preco"
               placeholder="10,00"
-              type="text"
+              type="number"
               value={state.preco}
               onChange={(e) => handleChange(e, "preco")}
             />
@@ -160,8 +165,9 @@ function AdicionaEditaPaletaModal({
             className="AdicionaPaletaModal__enviar"
             type="button"
             disabled={canDisable}
-            onClick={handleSend} >
-            { ActionMode.NORMAL === mode ? 'Enviar' : 'Atualizar' }
+            onClick={handleSend}
+          >
+            {ActionMode.NORMAL === mode ? "Enviar" : "Atualizar"}
           </button>
         </form>
       </div>
