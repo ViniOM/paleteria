@@ -5,6 +5,6 @@
 Desenvolvi essa aplicação a fins de estudo, passei por varios apertos no desenvolvimento mas consegui lançar e isso que importa!.
 
 
-[PALETERIA EL GELADON](https://testpalete.onrender.com)
+[PALETERIA EL GELADON](https://paleteria-elgeladon.vercel.app)
 
 <i>A instancia que esta rodando o servidor é gratis, portanto ela cai quando fica inativa. Assim que entrar na pagina aguarde alguns minutos para o servidor reativar novamente!</i>
