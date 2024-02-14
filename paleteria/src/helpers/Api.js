@@ -8,6 +8,6 @@ const paletaContext = {
 };
 
 export const Api = {
-  baseUrl: "https://el-geladon-api.onrender.com",
+baseUrl: "https://el-geladon-api.onrender.com",
   ...paletaContext,
 };
